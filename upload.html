@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Upload Music - Paper Volume</title>
+
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+    <!-- Header -->
+    <header>
+        <h1>Paper Volume</h1>
+        <p>Discover Independent Artists</p>
+
+        <nav>
+            <a href="index.html">Home</a> |
+            <a href="artists.html">Artists</a> |
+            <a href="tracks.html">Tracks</a> |
+            <a href="upload.html">Upload</a> |
+            <a href="login.html">Login</a>
+        </nav>
+    </header>
+
+
+    <!-- Upload Section -->
+    <section>
+        <div class="upload-container">
+
+            <h2>Upload Your Music</h2>
+
+            <form id="uploadForm" class="upload-form">
+
+                <label for="song-title">Song Title</label>
+
+                <input
+                    type="text"
+                    id="song-title"
+                    placeholder="Enter song title"
+                    required
+                >
+
+
+                <label for="artist-name">Artist Name</label>
+
+                <input
+                    type="text"
+                    id="artist-name"
+                    placeholder="Enter artist name"
+                    required
+                >
+
+
+                <label for="genre">Genre</label>
+
+                <input
+                    type="text"
+                    id="genre"
+                    placeholder="e.g. Hip-Hop, R&B, Pop"
+                    required
+                >
+
+
+                <label for="audio">Upload Audio</label>
+
+                <input
+                    type="file"
+                    id="audio"
+                    accept="audio/*"
+                    required
+                >
+
+
+                <button type="submit">Upload Song</button>
+
+            </form>
+
+        </div>
+    </section>
+
+
+    <!-- Footer -->
+    <footer>
+        <p>© 2026 Paper Volume. All Rights Reserved.</p>
+    </footer>
+
+
+    <script src="script.js"></script>
+
+</body>
+</html>

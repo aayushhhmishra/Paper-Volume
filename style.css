@@ -1,251 +1,738 @@
-/* Google Font */
 @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap');
 
-*{
-    margin:0;
-    padding:0;
-    box-sizing:border-box;
-    font-family:'Poppins',sans-serif;
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Poppins', sans-serif;
 }
 
-body{
-    background:#0b0b0b;
-    color:white;
-    line-height:1.6;
+body {
+    background: #0b0b0b;
+    color: white;
+    line-height: 1.6;
 }
 
 /* Header */
 
-header{
-    padding:25px 8%;
-    background:#111;
-    border-bottom:1px solid #222;
-    position:sticky;
-    top:0;
-    z-index:100;
+header {
+    padding: 25px 8%;
+    background: #111;
+    border-bottom: 1px solid #222;
+    position: sticky;
+    top: 0;
+    z-index: 100;
 }
 
-header h1{
-    color:#e50914;
-    font-size:3rem;
-    font-weight:700;
-    letter-spacing:2px;
+header h1 {
+    color: #e50914;
+    font-size: 3rem;
+    font-weight: 700;
+    letter-spacing: 2px;
 }
 
-header p{
-    color:#b3b3b3;
-    margin-bottom:15px;
+header p {
+    color: #b3b3b3;
+    margin-bottom: 15px;
 }
 
-nav{
-    display:flex;
-    gap:20px;
-    flex-wrap:wrap;
+nav {
+    display: flex;
+    gap: 20px;
+    flex-wrap: wrap;
 }
 
-nav a{
-    text-decoration:none;
-    color:white;
-    font-weight:500;
-    transition:0.3s;
+nav a {
+    color: white;
+    text-decoration: none;
+    font-weight: 500;
+    transition: 0.3s;
 }
 
-nav a:hover{
-    color:#e50914;
-}
-
-/* Hero */
-
-section:first-of-type{
-    min-height:70vh;
-    display:flex;
-    flex-direction:column;
-    justify-content:center;
-    align-items:center;
-    text-align:center;
-    padding:80px 10%;
-    background:
-    linear-gradient(rgba(0,0,0,.7),
-    rgba(0,0,0,.8)),
-    url('https://images.unsplash.com/photo-1493225457124-a3eb161ffa5f');
-    background-size:cover;
-    background-position:center;
-}
-
-section:first-of-type h2{
-    font-size:4rem;
-    margin-bottom:20px;
-}
-
-section:first-of-type p{
-    max-width:700px;
-    color:#ddd;
-    margin-bottom:30px;
-}
-
-/* Buttons */
-
-button{
-    background:#e50914;
-    color:white;
-    border:none;
-    padding:12px 24px;
-    border-radius:6px;
-    cursor:pointer;
-    font-size:1rem;
-    font-weight:600;
-    transition:0.3s;
-    margin:5px;
-}
-
-button:hover{
-    background:#ff1f2d;
-    transform:scale(1.05);
+nav a:hover {
+    color: #e50914;
 }
 
 /* Sections */
 
-section{
-    padding:70px 8%;
+section {
+    padding: 70px 8%;
 }
 
-section h2{
-    margin-bottom:25px;
-    font-size:2rem;
-    color:white;
+section h2 {
+    margin-bottom: 25px;
+    font-size: 2rem;
 }
 
-/* Search */
+/* Hero */
+
+section:first-of-type {
+    min-height: 70vh;
+    padding: 80px 10%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    background:
+        linear-gradient(rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.8)),
+        url('https://images.unsplash.com/photo-1493225457124-a3eb161ffa5f');
+    background-size: cover;
+    background-position: center;
+}
+
+section:first-of-type h2 {
+    font-size: 4rem;
+    margin-bottom: 20px;
+}
+
+section:first-of-type p {
+    max-width: 700px;
+    color: #ddd;
+    margin-bottom: 30px;
+}
+
+/* Buttons */
+
+button {
+    background: #e50914;
+    color: white;
+    border: none;
+    padding: 12px 24px;
+    border-radius: 6px;
+    cursor: pointer;
+    font-size: 1rem;
+    font-weight: 600;
+    transition: 0.3s;
+    margin: 5px;
+}
+
+button:hover {
+    background: #ff1f2d;
+    transform: scale(1.05);
+}
+
+/* Forms */
+
+form {
+    margin-top: 15px;
+}
 
 input[type="text"],
-input[type="email"]{
-    width:100%;
-    max-width:500px;
-    padding:15px;
-    background:#181818;
-    border:1px solid #333;
-    color:white;
-    border-radius:8px;
-    margin-bottom:15px;
+input[type="email"] {
+    width: 100%;
+    max-width: 500px;
+    padding: 15px;
+    background: #181818;
+    border: 1px solid #333;
+    color: white;
+    border-radius: 8px;
+    margin-bottom: 15px;
 }
 
-input:focus{
-    outline:none;
-    border-color:#e50914;
+input:focus {
+    outline: none;
+    border-color: #e50914;
 }
 
-/* Featured Artists */
-
-article{
-    background:#181818;
-    padding:25px;
-    border-radius:12px;
-    margin-bottom:20px;
-    transition:0.3s;
-    border:1px solid transparent;
+input[type="file"] {
+    color: white;
 }
 
-article:hover{
-    transform:translateY(-5px);
-    border-color:#e50914;
+/* Cards */
+
+article {
+    background: #181818;
+    padding: 25px;
+    border-radius: 12px;
+    margin-bottom: 20px;
+    border: 1px solid transparent;
+    transition: 0.3s;
 }
 
-article h3{
-    color:white;
-    margin-bottom:10px;
+article:hover {
+    transform: translateY(-5px);
+    border-color: #e50914;
 }
 
-article p{
-    color:#c7c7c7;
+article h3 {
+    margin-bottom: 10px;
 }
 
-/* Audio */
-
-audio{
-    width:100%;
-    margin-top:15px;
+article p {
+    color: #c7c7c7;
 }
 
-/* Upload Form */
-
-form{
-    margin-top:15px;
+audio {
+    width: 100%;
+    margin-top: 15px;
 }
 
-input[type="file"]{
-    color:white;
-    margin-bottom:15px;
+/* Artist Cards */
+
+.artists-page {
+    min-height: 70vh;
+}
+
+.artist-container {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 25px;
+}
+
+.artist-card {
+    padding: 30px;
+    cursor: pointer;
+    overflow: hidden;
+    border: 1px solid #222;
+    transition: 0.3s;
+}
+
+.artist-card:hover {
+    transform: translateY(-8px);
+    border-color: #e50914;
+    box-shadow: 0 15px 40px rgba(255, 0, 0, 0.2);
+}
+
+.artist-number {
+    color: #777;
+    font-size: 14px;
+    margin-bottom: 25px;
+}
+
+.artist-card h3 {
+    font-size: 1.5rem;
+    margin-bottom: 10px;
+    transition: 0.3s;
+}
+
+.artist-card:hover h3 {
+    color: #ff3b3b;
+}
+
+.artist-card p {
+    color: #aaa;
+    margin-bottom: 15px;
+}
+
+.artist-card span {
+    display: inline-block;
+    margin-top: 15px;
+    color: #999;
+    font-size: 14px;
+    transition: 0.3s;
+}
+
+.artist-card:hover span {
+    color: #ff3b3b;
+    transform: translateX(5px);
+}
+
+/* Track Cards */
+
+.track-container {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 25px;
+}
+
+.track-card {
+    border: 1px solid #222;
+}
+
+.track-card:hover {
+    transform: translateY(-5px);
+    border-color: #e50914;
+}
+
+.track-card h3 {
+    font-size: 1.4rem;
+    margin-bottom: 10px;
+}
+
+.track-card p {
+    color: #aaa;
+}
+
+.track-number {
+    color: #777;
+    font-size: 14px;
+    margin-bottom: 15px;
+}
+
+.track-title {
+    cursor: pointer;
+    transition: 0.3s;
+}
+
+.track-title:hover {
+    color: #ff3b3b;
+}
+
+.track-actions {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    margin-top: 15px;
+}
+
+.view-track-button {
+    background: transparent;
+    color: #888;
+    padding: 8px 0;
+    margin: 0;
+}
+
+.view-track-button:hover {
+    background: transparent;
+    color: #ff3b3b;
+    transform: none;
+}
+
+/* Upload */
+
+.upload-container {
+    max-width: 700px;
+    margin: 0 auto;
+    background: #181818;
+    padding: 40px;
+    border-radius: 15px;
+    border: 1px solid #222;
+}
+
+.upload-container h2 {
+    text-align: center;
+    margin-bottom: 30px;
+}
+
+.upload-form {
+    display: flex;
+    flex-direction: column;
+}
+
+.upload-form label {
+    color: #ddd;
+    margin-bottom: 8px;
+    font-weight: 500;
+}
+
+.upload-form input[type="text"] {
+    max-width: none;
+    margin-bottom: 20px;
+}
+
+.upload-form input[type="file"] {
+    width: 100%;
+    padding: 12px;
+    background: #111;
+    border: 1px solid #333;
+    border-radius: 8px;
+}
+
+.upload-form button {
+    width: 100%;
+    margin-top: 15px;
+}
+
+/* Login & Register */
+
+.login-container,
+.register-container {
+    max-width: 500px;
+    margin: 0 auto;
+    padding: 40px;
+    background: #181818;
+    border-radius: 15px;
+    border: 1px solid #222;
+    text-align: center;
+}
+
+.login-container h2,
+.register-container h2 {
+    font-size: 2rem;
+    margin-bottom: 10px;
+}
+
+.login-container > p,
+.register-container > p {
+    color: #aaa;
+    margin-bottom: 25px;
+}
+
+.login-form,
+.register-form {
+    display: flex;
+    flex-direction: column;
+    text-align: left;
+}
+
+.login-form label,
+.register-form label {
+    color: #ddd;
+    margin-bottom: 8px;
+    font-weight: 500;
+}
+
+.login-form input,
+.register-form input {
+    width: 100%;
+    max-width: none;
+    padding: 14px;
+    margin-bottom: 20px;
+    background: #111;
+    border: 1px solid #333;
+    color: white;
+    border-radius: 8px;
+    font-size: 1rem;
+}
+
+.login-form button,
+.register-form button {
+    width: 100%;
+    margin: 5px 0 20px;
 }
 
 /* Newsletter */
 
-section:last-of-type{
-    text-align:center;
-    background:#111;
-    border-radius:12px;
-    margin:40px 8%;
+section:last-of-type {
+    text-align: center;
+    background: #111;
+    border-radius: 12px;
+    margin: 40px 8%;
 }
 
 /* Footer */
 
-footer{
-    background:#000;
-    padding:40px;
-    text-align:center;
-    border-top:1px solid #222;
+footer {
+    background: #000;
+    padding: 40px;
+    text-align: center;
+    border-top: 1px solid #222;
 }
 
-footer p{
-    color:#999;
-    margin-bottom:15px;
+footer p {
+    color: #999;
+    margin-bottom: 15px;
 }
 
-footer a{
-    text-decoration:none;
-    color:white;
-    margin:0 10px;
-    transition:0.3s;
+footer a {
+    color: white;
+    text-decoration: none;
+    margin: 0 10px;
+    transition: 0.3s;
 }
 
-footer a:hover{
-    color:#e50914;
+footer a:hover {
+    color: #e50914;
 }
 
-/* HR Hidden */
+/* Artist Profile */
 
-hr{
-    display:none;
+.artist-profile,
+.track-profile {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100vh;
+    background:
+        radial-gradient(
+            circle at 70% 30%,
+            rgba(255, 0, 0, 0.15),
+            transparent 35%
+        ),
+        #080808;
+    z-index: 2000;
+    overflow-y: auto;
+    opacity: 0;
+    visibility: hidden;
+    transform: scale(1.05);
+    transition: 0.4s ease;
+}
+
+.artist-profile.active,
+.track-profile.active {
+    opacity: 1;
+    visibility: visible;
+    transform: scale(1);
+}
+
+.profile-close,
+.track-profile-close {
+    position: absolute;
+    top: 30px;
+    left: 40px;
+    background: transparent;
+    border: none;
+    color: #aaa;
+    font-size: 15px;
+    cursor: pointer;
+    z-index: 10;
+    margin: 0;
+}
+
+.profile-close:hover,
+.track-profile-close:hover {
+    background: transparent;
+    color: white;
+    transform: translateX(-5px);
+}
+
+.profile-content,
+.track-profile-content {
+    max-width: 1000px;
+    margin: auto;
+    padding: 120px 40px 80px;
+}
+
+.profile-number,
+.track-profile-number {
+    font-size: 110px;
+    font-weight: 700;
+    line-height: 0.8;
+    color: rgba(255, 255, 255, 0.04);
+    margin-bottom: 10px;
+}
+
+.profile-label,
+.track-profile-label {
+    color: #ff3b3b;
+    font-size: 13px;
+    letter-spacing: 3px;
+    margin-bottom: 15px;
+}
+
+.profile-content h1,
+.track-profile-content h1 {
+    font-size: clamp(55px, 10vw, 120px);
+    line-height: 0.9;
+    letter-spacing: -4px;
+    margin: 0;
+}
+
+.profile-genre {
+    font-size: 20px;
+    color: #999;
+    margin-top: 20px;
+}
+
+.profile-bio {
+    max-width: 600px;
+    color: #aaa;
+    line-height: 1.7;
+    font-size: 16px;
+    margin-top: 25px;
+}
+
+/* Profile Stats */
+
+.profile-stats,
+.track-profile-stats {
+    display: flex;
+    gap: 60px;
+    margin-top: 40px;
+}
+
+.track-profile-stats {
+    margin-top: 45px;
+}
+
+.profile-stats div,
+.track-profile-stats div {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+}
+
+.profile-stats strong,
+.track-profile-stats strong {
+    font-size: 28px;
+}
+
+.profile-stats span,
+.track-profile-stats span {
+    color: #777;
+    font-size: 13px;
+}
+
+/* Artist Profile Music */
+
+.profile-music {
+    max-width: 700px;
+    margin-top: 80px;
+}
+
+.profile-music h2 {
+    font-size: 25px;
+    margin-bottom: 20px;
+}
+
+.profile-track {
+    display: flex;
+    align-items: center;
+    gap: 25px;
+    padding: 18px 5px;
+    border-bottom: 1px solid #252525;
+    cursor: pointer;
+    transition: 0.3s;
+}
+
+.profile-track:hover {
+    padding-left: 12px;
+    border-color: #ff3b3b;
+}
+
+.profile-track .track-number {
+    width: 25px;
+    margin: 0;
+    color: #666;
+}
+
+.track-name {
+    flex: 1;
+    font-size: 16px;
+}
+
+.track-play {
+    color: #888;
+    transition: 0.3s;
+}
+
+.profile-track:hover .track-play {
+    color: #ff3b3b;
+    transform: scale(1.2);
+}
+
+/* Track Profile */
+
+.track-profile {
+    z-index: 3000;
+    background:
+        radial-gradient(
+            circle at 75% 25%,
+            rgba(255, 0, 0, 0.16),
+            transparent 35%
+        ),
+        #080808;
+}
+
+.track-profile-artist {
+    font-size: 24px;
+    color: white;
+    margin-top: 25px;
+}
+
+.track-profile-genre {
+    color: #888;
+    font-size: 16px;
+}
+
+.profile-player {
+    max-width: 650px;
+    margin-top: 40px;
+}
+
+.profile-player audio {
+    width: 100%;
+}
+
+.lyrics-section {
+    max-width: 650px;
+    margin-top: 90px;
+    padding-top: 35px;
+    border-top: 1px solid #252525;
+}
+
+.lyrics-section h2 {
+    font-size: 28px;
+    margin-bottom: 25px;
+}
+
+.lyrics-section p {
+    white-space: pre-line;
+    color: #aaa;
+    line-height: 2;
+    font-size: 17px;
+}
+
+/* Other */
+
+hr {
+    display: none;
 }
 
 /* Scrollbar */
 
-::-webkit-scrollbar{
-    width:10px;
+::-webkit-scrollbar {
+    width: 10px;
 }
 
-::-webkit-scrollbar-track{
-    background:#111;
+::-webkit-scrollbar-track {
+    background: #111;
 }
 
-::-webkit-scrollbar-thumb{
-    background:#e50914;
-    border-radius:10px;
+::-webkit-scrollbar-thumb {
+    background: #e50914;
+    border-radius: 10px;
 }
 
-/* Responsive */
+/* Mobile */
 
-@media(max-width:768px){
-
-    header h1{
-        font-size:2.2rem;
+@media (max-width: 768px) {
+    header h1 {
+        font-size: 2.2rem;
     }
 
-    section:first-of-type h2{
-        font-size:2.5rem;
+    nav {
+        flex-direction: column;
+        gap: 10px;
     }
 
-    nav{
-        flex-direction:column;
-        gap:10px;
+    section:first-of-type h2 {
+        font-size: 2.5rem;
+    }
+
+    .artist-container,
+    .track-container {
+        grid-template-columns: 1fr;
+    }
+
+    .upload-container,
+    .login-container,
+    .register-container {
+        padding: 25px;
+    }
+}
+
+@media (max-width: 600px) {
+    .profile-content,
+    .track-profile-content {
+        padding: 110px 25px 70px;
+    }
+
+    .profile-close,
+    .track-profile-close {
+        top: 20px;
+        left: 25px;
+    }
+
+    .profile-number,
+    .track-profile-number {
+        font-size: 75px;
+    }
+
+    .profile-content h1,
+    .track-profile-content h1 {
+        font-size: 55px;
+        letter-spacing: -2px;
+    }
+
+    .profile-stats,
+    .track-profile-stats {
+        gap: 30px;
+    }
+
+    .track-profile-stats strong {
+        font-size: 22px;
     }
 }

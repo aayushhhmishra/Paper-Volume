@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Artists - Paper Volume</title>
+
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+    <!-- Header -->
+    <header>
+        <h1>Paper Volume</h1>
+        <p>Discover Independent Artists</p>
+
+        <nav>
+            <a href="index.html">Home</a> |
+            <a href="artists.html">Artists</a> |
+            <a href="tracks.html">Tracks</a> |
+            <a href="upload.html">Upload</a> |
+            <a href="login.html">Login</a>
+        </nav>
+    </header>
+
+
+    <!-- Artists Section -->
+    <section class="artists-page">
+
+        <h2>Independent Artists</h2>
+
+        <div class="artist-container">
+
+            <!-- Artist One -->
+            <article class="artist-card artist-profile-button" data-artist="one">
+
+                <div class="artist-number">01</div>
+
+                <h3>Artist One</h3>
+
+                <p>Hip-Hop</p>
+
+                <span>View Artist →</span>
+
+            </article>
+
+
+            <!-- Artist Two -->
+            <article class="artist-card artist-profile-button" data-artist="two">
+
+                <div class="artist-number">02</div>
+
+                <h3>Artist Two</h3>
+
+                <p>R&B</p>
+
+                <span>View Artist →</span>
+
+            </article>
+
+
+            <!-- Artist Three -->
+            <article class="artist-card artist-profile-button" data-artist="three">
+
+                <div class="artist-number">03</div>
+
+                <h3>Artist Three</h3>
+
+                <p>Lo-Fi</p>
+
+                <span>View Artist →</span>
+
+            </article>
+
+        </div>
+
+    </section>
+
+
+    <!-- Full Screen Artist Profile -->
+
+    <div id="artistProfile" class="artist-profile">
+
+        <button id="closeArtistProfile" class="profile-close">
+            ← Back
+        </button>
+
+
+        <div class="profile-content">
+
+            <div class="profile-number" id="profileNumber">
+                01
+            </div>
+
+            <p class="profile-label">
+                INDEPENDENT ARTIST
+            </p>
+
+            <h1 id="profileName">
+                Artist One
+            </h1>
+
+            <p class="profile-genre" id="profileGenre">
+                Hip-Hop
+            </p>
+
+            <p class="profile-bio" id="profileBio">
+                Artist biography.
+            </p>
+
+
+            <!-- Stats -->
+
+            <div class="profile-stats">
+
+                <div>
+                    <strong id="profileTracks">
+                        12
+                    </strong>
+
+                    <span>Tracks</span>
+                </div>
+
+                <div>
+                    <strong id="profileFollowers">
+                        2.4K
+                    </strong>
+
+                    <span>Followers</span>
+                </div>
+
+            </div>
+
+
+            <!-- Tracks -->
+
+            <div class="profile-music">
+
+                <h2>Popular Tracks</h2>
+
+                <div id="profileTrackList">
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+
+    <!-- Footer -->
+
+    <footer>
+
+        <p>
+            © 2026 Paper Volume. All Rights Reserved.
+        </p>
+
+    </footer>
+
+
+    <script src="script.js"></script>
+
+</body>
+
+</html>

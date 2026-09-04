@@ -1,0 +1,335 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Tracks - Paper Volume</title>
+
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+    <!-- Header -->
+    <header>
+        <h1>Paper Volume</h1>
+        <p>Discover Independent Artists</p>
+
+        <nav>
+            <a href="index.html">Home</a> |
+            <a href="artists.html">Artists</a> |
+            <a href="tracks.html">Tracks</a> |
+            <a href="upload.html">Upload</a> |
+            <a href="login.html">Login</a>
+        </nav>
+    </header>
+
+
+    <!-- Tracks Section -->
+    <section class="tracks-page">
+
+        <h2>All Tracks</h2>
+
+        <!-- Search -->
+
+        <form id="trackSearchForm">
+
+            <input
+                type="text"
+                id="trackSearch"
+                placeholder="Search tracks or artists"
+            >
+
+            <button type="submit">
+                Search
+            </button>
+
+        </form>
+
+
+        <!-- Track Cards -->
+
+        <div class="track-container">
+
+
+            <!-- Die For You -->
+
+            <article
+                class="track-card"
+                data-search="die for you the weeknd pop"
+                data-track="die-for-you"
+            >
+
+                <div class="track-number">
+                    01
+                </div>
+
+                <h3 class="track-title">
+                    Die For You
+                </h3>
+
+                <p>The Weeknd</p>
+
+                <p>Genre: Pop</p>
+
+                <audio controls>
+
+                    <source
+                        src="Audio/die-for-you.mp3"
+                        type="audio/mp3"
+                    >
+
+                </audio>
+
+                <div class="track-actions">
+
+                    <button class="like-button">
+                        ♡ Like
+                    </button>
+
+                    <button
+                        class="view-track-button"
+                        data-track="die-for-you"
+                    >
+                        View Track →
+                    </button>
+
+                </div>
+
+            </article>
+
+
+            <!-- FE!N -->
+
+            <article
+                class="track-card"
+                data-search="fein fe!n travis scott hip-hop"
+                data-track="fein"
+            >
+
+                <div class="track-number">
+                    02
+                </div>
+
+                <h3 class="track-title">
+                    FE!N
+                </h3>
+
+                <p>Travis Scott</p>
+
+                <p>Genre: Hip-Hop</p>
+
+                <audio controls>
+
+                    <source
+                        src="Audio/fe!n.mp3"
+                        type="audio/mp3"
+                    >
+
+                </audio>
+
+                <div class="track-actions">
+
+                    <button class="like-button">
+                        ♡ Like
+                    </button>
+
+                    <button
+                        class="view-track-button"
+                        data-track="fein"
+                    >
+                        View Track →
+                    </button>
+
+                </div>
+
+            </article>
+
+
+            <!-- Big Dawgs -->
+
+            <article
+                class="track-card"
+                data-search="big dawgs hanumankind hip-hop"
+                data-track="big-dawgs"
+            >
+
+                <div class="track-number">
+                    03
+                </div>
+
+                <h3 class="track-title">
+                    Big Dawgs
+                </h3>
+
+                <p>Hanumankind</p>
+
+                <p>Genre: Hip-Hop</p>
+
+                <audio controls>
+
+                    <source
+                        src="Audio/big-dawgs.mp3"
+                        type="audio/mp3"
+                    >
+
+                </audio>
+
+                <div class="track-actions">
+
+                    <button class="like-button">
+                        ♡ Like
+                    </button>
+
+                    <button
+                        class="view-track-button"
+                        data-track="big-dawgs"
+                    >
+                        View Track →
+                    </button>
+
+                </div>
+
+            </article>
+
+        </div>
+
+    </section>
+
+
+    <!-- FULL SCREEN TRACK PROFILE -->
+
+    <div id="trackProfile" class="track-profile">
+
+        <button
+            id="closeTrackProfile"
+            class="track-profile-close"
+        >
+            ← Back
+        </button>
+
+
+        <div class="track-profile-content">
+
+            <div
+                class="track-profile-number"
+                id="profileTrackNumber"
+            >
+                01
+            </div>
+
+
+            <p class="track-profile-label">
+                TRACK
+            </p>
+
+
+            <h1 id="profileTrackName">
+                Die For You
+            </h1>
+
+
+            <p
+                class="track-profile-artist"
+                id="profileTrackArtist"
+            >
+                The Weeknd
+            </p>
+
+
+            <p
+                class="track-profile-genre"
+                id="profileTrackGenre"
+            >
+                Pop
+            </p>
+
+
+            <!-- Player -->
+
+            <div class="profile-player">
+
+                <audio
+                    id="profileAudio"
+                    controls
+                >
+                    <source
+                        id="profileAudioSource"
+                        src=""
+                        type="audio/mp3"
+                    >
+                </audio>
+
+            </div>
+
+
+            <!-- Track Stats -->
+
+            <div class="track-profile-stats">
+
+                <div>
+                    <strong id="profileTrackLikes">
+                        12.4K
+                    </strong>
+
+                    <span>Likes</span>
+                </div>
+
+
+                <div>
+                    <strong id="profileTrackPlays">
+                        86K
+                    </strong>
+
+                    <span>Plays</span>
+                </div>
+
+
+                <div>
+                    <strong id="profileTrackRelease">
+                        2026
+                    </strong>
+
+                    <span>Released</span>
+                </div>
+
+            </div>
+
+
+            <!-- Lyrics -->
+
+            <div class="lyrics-section">
+
+                <h2>
+                    Lyrics
+                </h2>
+
+                <p id="profileLyrics">
+                    Lyrics will appear here.
+                </p>
+
+            </div>
+
+        </div>
+
+    </div>
+
+
+    <!-- Footer -->
+
+    <footer>
+
+        <p>
+            © 2026 Paper Volume. All Rights Reserved.
+        </p>
+
+    </footer>
+
+
+    <script src="script.js"></script>
+
+</body>
+
+</html>
