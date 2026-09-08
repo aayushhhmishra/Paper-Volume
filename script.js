@@ -2,8 +2,14 @@
 
 console.log("Paper Volume is ready!");
 
+const $ = (selector) => document.querySelector(selector);
+
+
+// ====================
 // Explore Music
-const exploreButton = document.querySelector("#exploreMusic");
+// ====================
+
+const exploreButton = $("#exploreMusic");
 
 if (exploreButton) {
     exploreButton.addEventListener("click", () => {
@@ -11,158 +17,355 @@ if (exploreButton) {
     });
 }
 
-
+// ====================
 // Home Search
-const searchForm = document.querySelector("#searchForm");
+// ====================
+
+const searchForm = $("#searchForm");
 
 if (searchForm) {
     searchForm.addEventListener("submit", (event) => {
         event.preventDefault();
 
-        const search = document.querySelector("#searchInput").value.trim();
+        const search = $("#searchInput").value.trim();
 
         if (!search) {
             alert("Please enter an artist or song name.");
             return;
         }
 
-        alert(`You searched for: ${search}`);
+        window.location.href =
+            "tracks.html?search=" + encodeURIComponent(search);
     });
 }
 
-
+// ====================
 // Login
-const loginForm = document.querySelector("#loginForm");
+// ====================
+
+const loginForm = $("#loginForm");
 
 if (loginForm) {
-    loginForm.addEventListener("submit", (event) => {
+    loginForm.addEventListener("submit", async (event) => {
         event.preventDefault();
 
-        const email = document.querySelector("#email").value.trim();
-        const password = document.querySelector("#password").value;
+        const email = $("#email").value.trim();
+        const password = $("#password").value;
 
         if (!email || !password) {
             alert("Please fill in all fields.");
             return;
         }
 
-        alert("Login will be connected to the backend later.");
+        try {
+            const response = await fetch("/api/login", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify({
+                    email,
+                    password
+                })
+            });
+
+            const data = await response.json();
+
+            if (response.ok) {
+                localStorage.setItem("user", JSON.stringify(data.user));
+
+                alert("Welcome back, " + data.user.name + "!");
+
+                loginForm.reset();
+                window.location.href = "index.html";
+            } else {
+                alert(data.message);
+            }
+
+        } catch (error) {
+            console.log(error);
+            alert("Could not connect to the server.");
+        }
     });
 }
 
 
+// ====================
 // Register
-const registerForm = document.querySelector("#registerForm");
+// ====================
+
+const registerForm = $("#registerForm");
 
 if (registerForm) {
-    registerForm.addEventListener("submit", (event) => {
+    registerForm.addEventListener("submit", async (event) => {
         event.preventDefault();
 
-        const password = document.querySelector("#register-password").value;
-        const confirmPassword = document.querySelector("#confirm-password").value;
+        const name = $("#name").value.trim();
+        const email = $("#register-email").value.trim();
+        const password = $("#register-password").value;
+        const confirmPassword = $("#confirm-password").value;
+
+        if (!name || !email || !password || !confirmPassword) {
+            alert("Please fill in all fields.");
+            return;
+        }
 
         if (password !== confirmPassword) {
             alert("Passwords do not match.");
             return;
         }
 
-        alert("Account registration will be connected to the backend later.");
+        try {
+            const response = await fetch("/api/register", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify({
+                    name,
+                    email,
+                    password
+                })
+            });
+
+            const data = await response.json();
+
+            if (response.ok) {
+                alert("Account created successfully!");
+                registerForm.reset();
+                window.location.href = "login.html";
+            } else {
+                alert(data.message);
+            }
+
+        } catch (error) {
+            console.log(error);
+            alert("Could not connect to the server.");
+        }
     });
 }
 
 
+// ====================
 // Upload Music
-const uploadForm = document.querySelector("#uploadForm");
+// ====================
+
+const uploadForm = $("#uploadForm");
 
 if (uploadForm) {
-    uploadForm.addEventListener("submit", (event) => {
+    uploadForm.addEventListener("submit", async (event) => {
         event.preventDefault();
 
-        const audioFile = document.querySelector("#audio").files[0];
+        const loggedInUser = JSON.parse(localStorage.getItem("user"));
 
-        if (!audioFile) {
-            alert("Please select an audio file.");
+        if (!loggedInUser) {
+            alert("Please login first.");
+            window.location.href = "login.html";
             return;
         }
 
-        alert("Song selected successfully!");
+        const title = $("#songTitle").value.trim();
+        const artist = $("#songArtist").value.trim();
+        const genre = $("#songGenre").value.trim();
+        const audioFile = $("#song").files[0];
+
+        if (!title || !artist || !genre || !audioFile) {
+            alert("Please provide all song details.");
+            return;
+        }
+
+        if (audioFile.type !== "audio/mpeg") {
+            alert("Please select a valid MP3 file.");
+            return;
+        }
+
+        const formData = new FormData();
+
+        formData.append("title", title);
+        formData.append("artist", artist);
+        formData.append("genre", genre);
+        formData.append("uploadedBy", loggedInUser.name);
+        formData.append("song", audioFile);
+
+        try {
+            const response = await fetch("/api/upload", {
+                method: "POST",
+                body: formData
+            });
+
+            const data = await response.json();
+
+            if (response.ok) {
+                alert("Song uploaded successfully!");
+                uploadForm.reset();
+            } else {
+                alert(data.message);
+            }
+
+        } catch (error) {
+            console.log(error);
+            alert("Could not connect to the server.");
+        }
     });
 }
 
 
+// ====================
+// Dynamic Tracks
+// ====================
+
+const trackContainer = $("#trackContainer");
+let dynamicTracks = [];
+
+async function loadTracks() {
+    if (!trackContainer) return;
+
+    try {
+        const response = await fetch("/api/tracks");
+
+        if (!response.ok) {
+            throw new Error("Failed to fetch tracks");
+        }
+
+        const tracks = await response.json();
+        dynamicTracks = tracks;
+        trackContainer.innerHTML = "";
+
+        if (tracks.length === 0) {
+            trackContainer.innerHTML = "<p>No tracks available yet.</p>";
+            return;
+        }
+
+        tracks.forEach((track, index) => {
+            const trackCard = document.createElement("article");
+
+            trackCard.className = "track-card";
+            trackCard.dataset.track = track._id;
+            trackCard.dataset.search =
+                (track.title + " " + track.artist + " " + track.genre).toLowerCase();
+
+            trackCard.innerHTML =
+                '<div class="track-number">' +
+                    String(index + 1).padStart(2, "0") +
+                '</div>' +
+
+                '<h3 class="track-title">' +
+                    track.title +
+                '</h3>' +
+
+                '<p>' + track.artist + '</p>' +
+
+                '<p>Genre: ' + track.genre + '</p>' +
+
+                '<audio controls>' +
+                    '<source src="/uploads/' +
+                    encodeURIComponent(track.file) +
+                    '" type="audio/mpeg">' +
+                '</audio>' +
+
+                '<div class="track-actions">' +
+                    '<button class="like-button">♡ Like</button>' +
+
+                    '<button class="view-track-button" data-track="' +
+                    track._id +
+                    '">View Track →</button>' +
+                '</div>';
+
+            trackContainer.appendChild(trackCard);
+        });
+
+        setupTrackButtons();
+        setupLikeButtons();
+
+    } catch (error) {
+        console.log(error);
+        trackContainer.innerHTML = "<p>Could not load tracks.</p>";
+    }
+}
+
+loadTracks();
+
+
+// ====================
 // Track Search
-const trackSearchForm = document.querySelector("#trackSearchForm");
+// ====================
+
+const trackSearchForm = $("#trackSearchForm");
 
 if (trackSearchForm) {
     trackSearchForm.addEventListener("submit", (event) => {
         event.preventDefault();
 
-        const search = document
-            .querySelector("#trackSearch")
-            .value
-            .toLowerCase()
-            .trim();
-
+        const search = $("#trackSearch").value.toLowerCase().trim();
         const tracks = document.querySelectorAll(".track-card");
 
         tracks.forEach((track) => {
             const data = track.dataset.search.toLowerCase();
-            track.style.display = data.includes(search) ? "block" : "none";
+
+            track.style.display =
+                data.includes(search) ? "block" : "none";
         });
     });
 }
 
 
+// ====================
 // Like Buttons
-const likeButtons = document.querySelectorAll(".like-button");
+// ====================
 
-likeButtons.forEach((button) => {
-    button.addEventListener("click", () => {
-        button.innerText =
-            button.innerText === "♡ Like"
-                ? "♥ Liked"
-                : "♡ Like";
+function setupLikeButtons() {
+    const likeButtons = document.querySelectorAll(".like-button");
+
+    likeButtons.forEach((button) => {
+        button.addEventListener("click", () => {
+            button.innerText =
+                button.innerText === "♡ Like"
+                    ? "♥ Liked"
+                    : "♡ Like";
+        });
     });
-});
+}
 
 
+// ====================
 // Artist Profiles
-const artistProfile = document.querySelector("#artistProfile");
-const closeArtistProfile = document.querySelector("#closeArtistProfile");
+// ====================
+
+const artistProfile = $("#artistProfile");
+const closeArtistProfile = $("#closeArtistProfile");
 const artistCards = document.querySelectorAll(".artist-profile-button");
 
 const artistData = {
     one: {
         number: "01",
-        name: "Artist One",
-        genre: "Hip-Hop",
-        bio: "Artist One is an independent hip-hop artist creating energetic and original music. Their sound combines modern production with raw independent energy.",
-        tracks: "12",
-        followers: "2.4K",
-        songs: ["Midnight", "Lost Dreams", "No Limits"]
+        name: "The Weeknd",
+        country: "Canada",
+        bio: "The Weeknd is a Canadian singer, songwriter, and record producer known for his dark, atmospheric sound blending R&B, pop, and hip-hop. With his distinctive voice and cinematic storytelling, he has become one of the biggest artists in modern music.",
+        tracks: "300",
+        followers: "1.1M",
+        songs: ["Die For You", "Blinding Lights", "Timeless"]
     },
 
     two: {
         number: "02",
-        name: "Artist Two",
-        genre: "R&B",
-        bio: "Artist Two creates smooth R&B music with emotional melodies, modern production and a unique independent sound.",
-        tracks: "9",
-        followers: "1.8K",
-        songs: ["After Hours", "Closer", "Blue Moon"]
+        name: "Travis Scott",
+        country: "USA",
+        bio: "Travis Scott is an American rapper, singer, and record producer known for his atmospheric sound, psychedelic production, and high-energy performances. He has shaped modern hip-hop with his unique style and albums like Rodeo, Astroworld, and Utopia.",
+        tracks: "200",
+        followers: "700K",
+        songs: ["FE!N", "Sicko Mode", "You Know"]
     },
 
     three: {
         number: "03",
-        name: "Artist Three",
-        genre: "Lo-Fi",
-        bio: "Artist Three creates chilled lo-fi music for late nights, quiet moments and everything in between.",
-        tracks: "18",
-        followers: "3.1K",
-        songs: ["Rainy Nights", "Coffee", "Slow Days"]
+        name: "Hanumankind",
+        country: "India",
+        bio: "Hanumankind is an Indian rapper known for his powerful delivery, gritty sound, and unique blend of hip-hop with Indian influences. He gained global attention with his breakout track “Big Dawgs” and has become a rising name in Indian hip-hop.",
+        tracks: "100",
+        followers: "500K",
+        songs: ["Big Dawgs", "Damnson", "Run It Up"]
     }
 };
-
 
 function closeArtist() {
     if (!artistProfile) return;
@@ -171,21 +374,20 @@ function closeArtist() {
     document.body.style.overflow = "";
 }
 
-
 artistCards.forEach((card) => {
     card.addEventListener("click", () => {
         const artist = artistData[card.dataset.artist];
 
         if (!artist) return;
 
-        document.querySelector("#profileNumber").innerText = artist.number;
-        document.querySelector("#profileName").innerText = artist.name;
-        document.querySelector("#profileGenre").innerText = artist.genre;
-        document.querySelector("#profileBio").innerText = artist.bio;
-        document.querySelector("#profileTracks").innerText = artist.tracks;
-        document.querySelector("#profileFollowers").innerText = artist.followers;
+        $("#profileNumber").innerText = artist.number;
+        $("#profileName").innerText = artist.name;
+        $("#profileCountry").innerText = artist.country;
+        $("#profileBio").innerText = artist.bio;
+        $("#profileTracks").innerText = artist.tracks;
+        $("#profileFollowers").innerText = artist.followers;
 
-        const trackList = document.querySelector("#profileTrackList");
+        const trackList = $("#profileTrackList");
         trackList.innerHTML = "";
 
         artist.songs.forEach((song, index) => {
@@ -193,19 +395,16 @@ artistCards.forEach((card) => {
 
             songElement.className = "profile-track";
 
-            songElement.innerHTML = `
-                <span class="track-number">
-                    ${String(index + 1).padStart(2, "0")}
-                </span>
+            songElement.innerHTML =
+                '<span class="track-number">' +
+                    String(index + 1).padStart(2, "0") +
+                '</span>' +
 
-                <span class="track-name">
-                    ${song}
-                </span>
+                '<span class="track-name">' +
+                    song +
+                '</span>' +
 
-                <span class="track-play">
-                    ▶
-                </span>
-            `;
+                '<span class="track-play">▶</span>';
 
             trackList.appendChild(songElement);
         });
@@ -215,62 +414,70 @@ artistCards.forEach((card) => {
     });
 });
 
-
 if (closeArtistProfile) {
     closeArtistProfile.addEventListener("click", closeArtist);
 }
 
 
-// Track Profiles
-const trackProfile = document.querySelector("#trackProfile");
-const closeTrackProfile = document.querySelector("#closeTrackProfile");
-const viewTrackButtons = document.querySelectorAll(
-    ".view-track-button, .track-title"
-);
+// ====================
+// Dynamic Track Profiles
+// ====================
 
-const trackData = {
-    "die-for-you": {
-        number: "01",
-        name: "Die For You",
-        artist: "The Weeknd",
-        genre: "Pop",
-        likes: "12.4K",
-        plays: "86K",
-        release: "2026",
-        audio: "Audio/die-for-you.mp3",
-        lyrics: "Lyrics will appear here when properly licensed lyrics are added."
-    },
+const trackProfile = $("#trackProfile");
+const closeTrackProfile = $("#closeTrackProfile");
 
-    fein: {
-        number: "02",
-        name: "FE!N",
-        artist: "Travis Scott",
-        genre: "Hip-Hop",
-        likes: "18.7K",
-        plays: "124K",
-        release: "2026",
-        audio: "Audio/fe!n.mp3",
-        lyrics: "Lyrics will appear here when properly licensed lyrics are added."
-    },
+function setupTrackButtons() {
+    const viewTrackButtons =
+        document.querySelectorAll(".view-track-button, .track-title");
 
-    "big-dawgs": {
-        number: "03",
-        name: "Big Dawgs",
-        artist: "Hanumankind",
-        genre: "Hip-Hop",
-        likes: "21.2K",
-        plays: "156K",
-        release: "2026",
-        audio: "Audio/big-dawgs.mp3",
-        lyrics: "Lyrics will appear here when properly licensed lyrics are added."
-    }
-};
+    viewTrackButtons.forEach((button) => {
+        button.addEventListener("click", () => {
+            const trackId =
+                button.dataset.track ||
+                button.closest(".track-card")?.dataset.track;
 
+            const track =
+                dynamicTracks.find((item) => item._id === trackId);
+
+            if (!track) return;
+
+            $("#profileTrackNumber").innerText =
+                String(dynamicTracks.indexOf(track) + 1).padStart(2, "0");
+
+            $("#profileTrackName").innerText = track.title;
+            $("#profileTrackArtist").innerText = track.artist;
+            $("#profileTrackGenre").innerText = track.genre;
+            $("#profileTrackLikes").innerText = "0";
+            $("#profileTrackPlays").innerText = "0";
+
+            $("#profileTrackRelease").innerText =
+                new Date(track.createdAt).getFullYear();
+
+            $("#profileLyrics").innerText =
+                "Lyrics will appear here when properly licensed lyrics are added.";
+
+            const audio = $("#profileAudio");
+            const source = $("#profileAudioSource");
+
+            if (audio && source) {
+                audio.pause();
+                source.src =
+                    "/uploads/" + encodeURIComponent(track.file);
+                audio.load();
+            }
+
+            if (trackProfile) {
+                trackProfile.classList.add("active");
+                document.body.style.overflow = "hidden";
+            }
+        });
+    });
+}
 
 function closeTrack() {
     if (!trackProfile) return;
 
-    const audio = document.querySelector("#profileAudio");
+    const audio = $("#profileAudio");
 
     if (audio) {
         audio.pause();
@@ -280,48 +487,84 @@ function closeTrack() {
     document.body.style.overflow = "";
 }
 
-
-viewTrackButtons.forEach((button) => {
-    button.addEventListener("click", () => {
-        const trackId =
-            button.dataset.track ||
-            button.closest(".track-card")?.dataset.track;
-
-        const track = trackData[trackId];
-
-        if (!track) return;
-
-        document.querySelector("#profileTrackNumber").innerText = track.number;
-        document.querySelector("#profileTrackName").innerText = track.name;
-        document.querySelector("#profileTrackArtist").innerText = track.artist;
-        document.querySelector("#profileTrackGenre").innerText = track.genre;
-        document.querySelector("#profileTrackLikes").innerText = track.likes;
-        document.querySelector("#profileTrackPlays").innerText = track.plays;
-        document.querySelector("#profileTrackRelease").innerText = track.release;
-        document.querySelector("#profileLyrics").innerText = track.lyrics;
-
-        const audio = document.querySelector("#profileAudio");
-        const source = document.querySelector("#profileAudioSource");
-
-        audio.pause();
-        source.src = track.audio;
-        audio.load();
-
-        trackProfile.classList.add("active");
-        document.body.style.overflow = "hidden";
-    });
-});
-
-
 if (closeTrackProfile) {
     closeTrackProfile.addEventListener("click", closeTrack);
 }
 
 
-// Close profiles with Escape
-document.addEventListener("keydown", (event) => {
-    if (event.key !== "Escape") return;
+// ====================
+// Dashboard
+// ====================
 
-    closeArtist();
-    closeTrack();
+const dashboardName = $("#dashboardName");
+const userName = $("#userName");
+const userEmail = $("#userEmail");
+const logoutButton = $("#logoutButton");
+
+const loggedInUser =
+    JSON.parse(localStorage.getItem("user"));
+
+if (dashboardName && userName && userEmail) {
+    if (!loggedInUser) {
+        alert("Please login first.");
+        window.location.href = "login.html";
+    } else {
+        dashboardName.innerText = loggedInUser.name;
+        userName.innerText = loggedInUser.name;
+        userEmail.innerText = loggedInUser.email;
+    }
+}
+
+
+// ====================
+// Dashboard Logout
+// ====================
+
+if (logoutButton) {
+    logoutButton.addEventListener("click", () => {
+        localStorage.removeItem("user");
+
+        alert("Logged out successfully!");
+        window.location.href = "login.html";
+    });
+}
+
+
+// ====================
+// Update Navbar
+// ====================
+
+const nav = document.querySelector("nav");
+
+if (nav && loggedInUser) {
+    nav.innerHTML =
+        '<a href="index.html">Home</a> | ' +
+        '<a href="artists.html">Artists</a> | ' +
+        '<a href="tracks.html">Tracks</a> | ' +
+        '<a href="upload.html">Upload</a> | ' +
+        '<a href="dashboard.html">Dashboard</a> | ' +
+        '<a href="#" id="navLogout">Logout</a>';
+
+    const navLogout = $("#navLogout");
+
+    navLogout.addEventListener("click", (event) => {
+        event.preventDefault();
+
+        localStorage.removeItem("user");
+
+        alert("Logged out successfully!");
+        window.location.href = "login.html";
+    });
+}
+
+
+// ====================
+// Close Profiles with Escape
+// ====================
+
+document.addEventListener("keydown", (event) => {
+    if (event.key === "Escape") {
+        closeArtist();
+        closeTrack();
+    }
 });

@@ -5,16 +5,17 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <title>Upload Music - Paper Volume</title>
+    <title>Upload - Paper Volume</title>
 
     <link rel="stylesheet" href="style.css">
 </head>
 
 <body>
 
-    <!-- Header -->
     <header>
+
         <h1>Paper Volume</h1>
+
         <p>Discover Independent Artists</p>
 
         <nav>
@@ -24,72 +25,104 @@
             <a href="upload.html">Upload</a> |
             <a href="login.html">Login</a>
         </nav>
+
     </header>
 
 
-    <!-- Upload Section -->
     <section>
+
         <div class="upload-container">
 
-            <h2>Upload Your Music</h2>
+            <h2>Upload Your Song</h2>
 
-            <form id="uploadForm" class="upload-form">
+            <p>
+                Share your music with the Paper Volume community.
+            </p>
 
-                <label for="song-title">Song Title</label>
+
+            <form class="upload-form" id="uploadForm">
+
+
+                <!-- Song Title -->
+
+                <label for="songTitle">
+                    Song Title
+                </label>
 
                 <input
                     type="text"
-                    id="song-title"
+                    id="songTitle"
                     placeholder="Enter song title"
                     required
                 >
 
 
-                <label for="artist-name">Artist Name</label>
+                <!-- Artist -->
+
+                <label for="songArtist">
+                    Artist Name
+                </label>
 
                 <input
                     type="text"
-                    id="artist-name"
+                    id="songArtist"
                     placeholder="Enter artist name"
                     required
                 >
 
 
-                <label for="genre">Genre</label>
+                <!-- Genre -->
+
+                <label for="songGenre">
+                    Genre
+                </label>
 
                 <input
                     type="text"
-                    id="genre"
-                    placeholder="e.g. Hip-Hop, R&B, Pop"
+                    id="songGenre"
+                    placeholder="e.g. Hip-Hop, Pop, R&B"
                     required
                 >
 
 
-                <label for="audio">Upload Audio</label>
+                <!-- MP3 File -->
+
+                <label for="song">
+                    Select MP3 File
+                </label>
 
                 <input
                     type="file"
-                    id="audio"
-                    accept="audio/*"
+                    id="song"
+                    name="song"
+                    accept=".mp3,audio/mpeg"
                     required
                 >
 
 
-                <button type="submit">Upload Song</button>
+                <button type="submit">
+                    Upload Song
+                </button>
+
 
             </form>
 
         </div>
+
     </section>
 
 
-    <!-- Footer -->
     <footer>
-        <p>© 2026 Paper Volume. All Rights Reserved.</p>
+
+        <p>
+            © 2026 Paper Volume. All Rights Reserved.
+        </p>
+
     </footer>
 
 
     <script src="script.js"></script>
 
 </body>
+
 </html>
