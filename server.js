@@ -1,11 +1,13 @@
+require("dotenv").config();
+
 const express = require("express");
 const path = require("path");
 const mongoose = require("mongoose");
 const bcrypt = require("bcrypt");
 const multer = require("multer");
 
-const User = require("./models/User");
-const Track = require("./models/Track");
+const User = require("./models/user");
+const Track = require("./models/track");
 
 const app = express();
 const PORT = 3000;
@@ -31,7 +33,7 @@ app.use(express.json());
 
 // MongoDB Connection
 
-mongoose.connect("mongodb://127.0.0.1:27017/paper_volume")
+mongoose.connect(process.env.MONGODB_URI)
     .then(() => {
         console.log("MongoDB connected successfully");
     })
