@@ -10,7 +10,6 @@ const User = require("./models/user");
 const Track = require("./models/track");
 
 const app = express();
-const PORT = 3000;
 
 
 // Multer Storage
@@ -190,8 +189,18 @@ app.get("/api/tracks", async (req, res) => {
 });
 
 
-// Start Server
+// Export App for Vercel
 
-app.listen(PORT, () => {
-    console.log("Server running at http://localhost:" + PORT);
-});
+module.exports = app;
+
+
+// Run locally
+
+if (require.main === module) {
+    const PORT = process.env.PORT || 3000;
+
+    app.listen(PORT, () => {
+        console.log("Server running at http://localhost:" + PORT);
+    });
+}
+
