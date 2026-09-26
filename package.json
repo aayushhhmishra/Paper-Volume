@@ -1,0 +1,29 @@
+{
+  "name": "paper-volume",
+  "version": "1.0.0",
+  "description": "Paper Volume is a music discovery platform that empowers independent artists to share their work while helping listeners discover and support emerging talent.",
+  "main": "script.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node server.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/aayushhhmishra/Paper-Volume.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "commonjs",
+  "bugs": {
+    "url": "https://github.com/aayushhhmishra/Paper-Volume/issues"
+  },
+  "homepage": "https://github.com/aayushhhmishra/Paper-Volume#readme",
+  "dependencies": {
+    "bcrypt": "^6.0.0",
+    "dotenv": "^18.0.4",
+    "express": "^5.2.1",
+    "mongoose": "^9.10.2",
+    "multer": "^2.4.0"
+  }
+}
