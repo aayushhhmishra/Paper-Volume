@@ -248,6 +248,8 @@ app.get("/api/audio/:fileId", async (req, res) => {
 
 app.get("/api/tracks", async (req, res) => {
 try {
+    await connectDatabase();
+
 const tracks = await Track.find()
 .sort({ createdAt: -1 });
 
