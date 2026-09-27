@@ -1,128 +1,84 @@
 <!DOCTYPE html>
+
 <html lang="en">
 
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
     <title>Upload - Paper Volume</title>
-
     <link rel="stylesheet" href="style.css">
 </head>
 
 <body>
 
-    <header>
+```
+<header>
+    <h1>Paper Volume</h1>
+    <p>Discover Independent Artists</p>
 
-        <h1>Paper Volume</h1>
+    <nav>
+        <a href="index.html">Home</a>
+        <a href="artists.html">Artists</a>
+        <a href="tracks.html">Tracks</a>
+        <a href="upload.html">Upload</a>
+        <a href="login.html">Login</a>
+    </nav>
+</header>
 
-        <p>Discover Independent Artists</p>
+<section>
+    <div class="upload-container">
 
-        <nav>
-            <a href="index.html">Home</a> |
-            <a href="artists.html">Artists</a> |
-            <a href="tracks.html">Tracks</a> |
-            <a href="upload.html">Upload</a> |
-            <a href="login.html">Login</a>
-        </nav>
+        <h2>Upload Your Song</h2>
+        <p>Share your music with the Paper Volume community.</p>
 
-    </header>
+        <form class="upload-form" id="uploadForm">
 
+            <label for="songTitle">Song Title</label>
+            <input
+                type="text"
+                id="songTitle"
+                placeholder="Enter song title"
+                required
+            >
 
-    <section>
+            <label for="songArtist">Artist Name</label>
+            <input
+                type="text"
+                id="songArtist"
+                placeholder="Enter artist name"
+                required
+            >
 
-        <div class="upload-container">
+            <label for="songGenre">Genre</label>
+            <input
+                type="text"
+                id="songGenre"
+                placeholder="e.g. Hip-Hop, Pop, R&B"
+                required
+            >
 
-            <h2>Upload Your Song</h2>
+            <label for="song">Select MP3 File</label>
+            <input
+                type="file"
+                id="song"
+                name="song"
+                accept=".mp3,audio/mpeg"
+                required
+            >
 
-            <p>
-                Share your music with the Paper Volume community.
-            </p>
+            <button type="submit">Upload Song</button>
 
+        </form>
 
-            <form class="upload-form" id="uploadForm">
+    </div>
+</section>
 
+<footer>
+    <p>© 2026 Paper Volume. All Rights Reserved.</p>
+</footer>
 
-                <!-- Song Title -->
-
-                <label for="songTitle">
-                    Song Title
-                </label>
-
-                <input
-                    type="text"
-                    id="songTitle"
-                    placeholder="Enter song title"
-                    required
-                >
-
-
-                <!-- Artist -->
-
-                <label for="songArtist">
-                    Artist Name
-                </label>
-
-                <input
-                    type="text"
-                    id="songArtist"
-                    placeholder="Enter artist name"
-                    required
-                >
-
-
-                <!-- Genre -->
-
-                <label for="songGenre">
-                    Genre
-                </label>
-
-                <input
-                    type="text"
-                    id="songGenre"
-                    placeholder="e.g. Hip-Hop, Pop, R&B"
-                    required
-                >
-
-
-                <!-- MP3 File -->
-
-                <label for="song">
-                    Select MP3 File
-                </label>
-
-                <input
-                    type="file"
-                    id="song"
-                    name="song"
-                    accept=".mp3,audio/mpeg"
-                    required
-                >
-
-
-                <button type="submit">
-                    Upload Song
-                </button>
-
-
-            </form>
-
-        </div>
-
-    </section>
-
-
-    <footer>
-
-        <p>
-            © 2026 Paper Volume. All Rights Reserved.
-        </p>
-
-    </footer>
-
-
-    <script src="script.js"></script>
+<script src="script.js"></script>
+```
 
 </body>
-
 </html>

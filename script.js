@@ -1,14 +1,17 @@
-// Paper Volume - JavaScript
-
 console.log("Paper Volume is ready!");
 
 const $ = (selector) => document.querySelector(selector);
 
+const getUser = () => {
+    try {
+        return JSON.parse(localStorage.getItem("user"));
+    } catch {
+        return null;
+    }
+};
 
-// ====================
-// Explore Music
-// ====================
 
+// Home
 const exploreButton = $("#exploreMusic");
 
 if (exploreButton) {
@@ -16,10 +19,6 @@ if (exploreButton) {
         window.location.href = "tracks.html";
     });
 }
-
-// ====================
-// Home Search
-// ====================
 
 const searchForm = $("#searchForm");
 
@@ -39,10 +38,8 @@ if (searchForm) {
     });
 }
 
-// ====================
-// Login
-// ====================
 
+// Login
 const loginForm = $("#loginForm");
 
 if (loginForm) {
@@ -63,37 +60,31 @@ if (loginForm) {
                 headers: {
                     "Content-Type": "application/json"
                 },
-                body: JSON.stringify({
-                    email,
-                    password
-                })
+                body: JSON.stringify({ email, password })
             });
 
             const data = await response.json();
 
-            if (response.ok) {
-                localStorage.setItem("user", JSON.stringify(data.user));
-
-                alert("Welcome back, " + data.user.name + "!");
-
-                loginForm.reset();
-                window.location.href = "index.html";
-            } else {
-                alert(data.message);
+            if (!response.ok) {
+                alert(data.message || "Login failed.");
+                return;
             }
 
+            localStorage.setItem("user", JSON.stringify(data.user));
+
+            alert("Welcome back, " + data.user.name + "!");
+            loginForm.reset();
+            window.location.href = "index.html";
+
         } catch (error) {
-            console.log(error);
+            console.error(error);
             alert("Could not connect to the server.");
         }
     });
 }
 
 
-// ====================
 // Register
-// ====================
-
 const registerForm = $("#registerForm");
 
 if (registerForm) {
@@ -130,35 +121,33 @@ if (registerForm) {
 
             const data = await response.json();
 
-            if (response.ok) {
-                alert("Account created successfully!");
-                registerForm.reset();
-                window.location.href = "login.html";
-            } else {
-                alert(data.message);
+            if (!response.ok) {
+                alert(data.message || "Registration failed.");
+                return;
             }
 
+            alert("Account created successfully!");
+            registerForm.reset();
+            window.location.href = "login.html";
+
         } catch (error) {
-            console.log(error);
+            console.error(error);
             alert("Could not connect to the server.");
         }
     });
 }
 
 
-// ====================
-// Upload Music
-// ====================
-
+// Upload
 const uploadForm = $("#uploadForm");
 
 if (uploadForm) {
     uploadForm.addEventListener("submit", async (event) => {
         event.preventDefault();
 
-        const loggedInUser = JSON.parse(localStorage.getItem("user"));
+        const user = getUser();
 
-        if (!loggedInUser) {
+        if (!user) {
             alert("Please login first.");
             window.location.href = "login.html";
             return;
@@ -184,7 +173,7 @@ if (uploadForm) {
         formData.append("title", title);
         formData.append("artist", artist);
         formData.append("genre", genre);
-        formData.append("uploadedBy", loggedInUser.name);
+        formData.append("uploadedBy", user.name);
         formData.append("song", audioFile);
 
         try {
@@ -195,26 +184,27 @@ if (uploadForm) {
 
             const data = await response.json();
 
-            if (response.ok) {
-                alert("Song uploaded successfully!");
-                uploadForm.reset();
-            } else {
-                alert(data.message);
+            if (!response.ok) {
+                alert(data.message || "Upload failed.");
+                return;
             }
 
+            alert("Song uploaded successfully!");
+            uploadForm.reset();
+
         } catch (error) {
-            console.log(error);
+            console.error(error);
             alert("Could not connect to the server.");
         }
     });
 }
 
 
-// ====================
-// Dynamic Tracks
-// ====================
-
+// Tracks
 const trackContainer = $("#trackContainer");
+const trackProfile = $("#trackProfile");
+const closeTrackProfile = $("#closeTrackProfile");
+
 let dynamicTracks = [];
 
 async function loadTracks() {
@@ -224,61 +214,57 @@ async function loadTracks() {
         const response = await fetch("/api/tracks");
 
         if (!response.ok) {
-            throw new Error("Failed to fetch tracks");
+            throw new Error("Failed to load tracks");
         }
 
-        const tracks = await response.json();
-        dynamicTracks = tracks;
+        dynamicTracks = await response.json();
         trackContainer.innerHTML = "";
 
-        if (tracks.length === 0) {
+        if (!dynamicTracks.length) {
             trackContainer.innerHTML = "<p>No tracks available yet.</p>";
             return;
         }
 
-        tracks.forEach((track, index) => {
-            const trackCard = document.createElement("article");
+        dynamicTracks.forEach((track, index) => {
+            const card = document.createElement("article");
 
-            trackCard.className = "track-card";
-            trackCard.dataset.track = track._id;
-            trackCard.dataset.search =
-                (track.title + " " + track.artist + " " + track.genre).toLowerCase();
+            card.className = "track-card";
+            card.dataset.track = track._id;
+            card.dataset.search =
+                `${track.title} ${track.artist} ${track.genre}`.toLowerCase();
 
-            trackCard.innerHTML =
-                '<div class="track-number">' +
-                    String(index + 1).padStart(2, "0") +
-                '</div>' +
+            card.innerHTML = `
+                <div class="track-number">${String(index + 1).padStart(2, "0")}</div>
 
-                '<h3 class="track-title">' +
-                    track.title +
-                '</h3>' +
+                <h3 class="track-title">${track.title}</h3>
 
-                '<p>' + track.artist + '</p>' +
+                <p>${track.artist}</p>
+                <p>Genre: ${track.genre}</p>
 
-                '<p>Genre: ' + track.genre + '</p>' +
+                <audio controls>
+                    <source
+                        src="/uploads/${encodeURIComponent(track.file)}"
+                        type="audio/mpeg"
+                    >
+                </audio>
 
-                '<audio controls>' +
-                    '<source src="/uploads/' +
-                    encodeURIComponent(track.file) +
-                    '" type="audio/mpeg">' +
-                '</audio>' +
+                <div class="track-actions">
+                    <button class="like-button">♡ Like</button>
 
-                '<div class="track-actions">' +
-                    '<button class="like-button">♡ Like</button>' +
+                    <button class="view-track-button" data-track="${track._id}">
+                        View Track →
+                    </button>
+                </div>
+            `;
 
-                    '<button class="view-track-button" data-track="' +
-                    track._id +
-                    '">View Track →</button>' +
-                '</div>';
-
-            trackContainer.appendChild(trackCard);
+            trackContainer.appendChild(card);
         });
 
         setupTrackButtons();
         setupLikeButtons();
 
     } catch (error) {
-        console.log(error);
+        console.error(error);
         trackContainer.innerHTML = "<p>Could not load tracks.</p>";
     }
 }
@@ -286,37 +272,26 @@ async function loadTracks() {
 loadTracks();
 
 
-// ====================
 // Track Search
-// ====================
-
 const trackSearchForm = $("#trackSearchForm");
 
 if (trackSearchForm) {
     trackSearchForm.addEventListener("submit", (event) => {
         event.preventDefault();
 
-        const search = $("#trackSearch").value.toLowerCase().trim();
-        const tracks = document.querySelectorAll(".track-card");
+        const search = $("#trackSearch").value.trim().toLowerCase();
 
-        tracks.forEach((track) => {
-            const data = track.dataset.search.toLowerCase();
-
+        document.querySelectorAll(".track-card").forEach((track) => {
             track.style.display =
-                data.includes(search) ? "block" : "none";
+                track.dataset.search.includes(search) ? "block" : "none";
         });
     });
 }
 
 
-// ====================
 // Like Buttons
-// ====================
-
 function setupLikeButtons() {
-    const likeButtons = document.querySelectorAll(".like-button");
-
-    likeButtons.forEach((button) => {
+    document.querySelectorAll(".like-button").forEach((button) => {
         button.addEventListener("click", () => {
             button.innerText =
                 button.innerText === "♡ Like"
@@ -327,20 +302,16 @@ function setupLikeButtons() {
 }
 
 
-// ====================
 // Artist Profiles
-// ====================
-
 const artistProfile = $("#artistProfile");
 const closeArtistProfile = $("#closeArtistProfile");
-const artistCards = document.querySelectorAll(".artist-profile-button");
 
 const artistData = {
     one: {
         number: "01",
         name: "The Weeknd",
         country: "Canada",
-        bio: "The Weeknd is a Canadian singer, songwriter, and record producer known for his dark, atmospheric sound blending R&B, pop, and hip-hop. With his distinctive voice and cinematic storytelling, he has become one of the biggest artists in modern music.",
+        bio: "The Weeknd is a Canadian singer, songwriter, and record producer known for his dark, atmospheric sound blending R&B, pop, and hip-hop.",
         tracks: "300",
         followers: "1.1M",
         songs: ["Die For You", "Blinding Lights", "Timeless"]
@@ -350,7 +321,7 @@ const artistData = {
         number: "02",
         name: "Travis Scott",
         country: "USA",
-        bio: "Travis Scott is an American rapper, singer, and record producer known for his atmospheric sound, psychedelic production, and high-energy performances. He has shaped modern hip-hop with his unique style and albums like Rodeo, Astroworld, and Utopia.",
+        bio: "Travis Scott is an American rapper, singer, and record producer known for his atmospheric sound, psychedelic production, and high-energy performances.",
         tracks: "200",
         followers: "700K",
         songs: ["FE!N", "Sicko Mode", "You Know"]
@@ -360,25 +331,18 @@ const artistData = {
         number: "03",
         name: "Hanumankind",
         country: "India",
-        bio: "Hanumankind is an Indian rapper known for his powerful delivery, gritty sound, and unique blend of hip-hop with Indian influences. He gained global attention with his breakout track “Big Dawgs” and has become a rising name in Indian hip-hop.",
+        bio: "Hanumankind is an Indian rapper known for his powerful delivery, gritty sound, and unique blend of hip-hop with Indian influences.",
         tracks: "100",
         followers: "500K",
         songs: ["Big Dawgs", "Damnson", "Run It Up"]
     }
 };
 
-function closeArtist() {
-    if (!artistProfile) return;
-
-    artistProfile.classList.remove("active");
-    document.body.style.overflow = "";
-}
-
-artistCards.forEach((card) => {
+document.querySelectorAll(".artist-profile-button").forEach((card) => {
     card.addEventListener("click", () => {
         const artist = artistData[card.dataset.artist];
 
-        if (!artist) return;
+        if (!artist || !artistProfile) return;
 
         $("#profileNumber").innerText = artist.number;
         $("#profileName").innerText = artist.name;
@@ -395,16 +359,14 @@ artistCards.forEach((card) => {
 
             songElement.className = "profile-track";
 
-            songElement.innerHTML =
-                '<span class="track-number">' +
-                    String(index + 1).padStart(2, "0") +
-                '</span>' +
+            songElement.innerHTML = `
+                <span class="track-number">
+                    ${String(index + 1).padStart(2, "0")}
+                </span>
 
-                '<span class="track-name">' +
-                    song +
-                '</span>' +
-
-                '<span class="track-play">▶</span>';
+                <span class="track-name">${song}</span>
+                <span class="track-play">▶</span>
+            `;
 
             trackList.appendChild(songElement);
         });
@@ -414,64 +376,64 @@ artistCards.forEach((card) => {
     });
 });
 
+function closeArtist() {
+    if (!artistProfile) return;
+
+    artistProfile.classList.remove("active");
+    document.body.style.overflow = "";
+}
+
 if (closeArtistProfile) {
     closeArtistProfile.addEventListener("click", closeArtist);
 }
 
 
-// ====================
-// Dynamic Track Profiles
-// ====================
-
-const trackProfile = $("#trackProfile");
-const closeTrackProfile = $("#closeTrackProfile");
-
+// Track Profiles
 function setupTrackButtons() {
-    const viewTrackButtons =
-        document.querySelectorAll(".view-track-button, .track-title");
+    document
+        .querySelectorAll(".view-track-button, .track-title")
+        .forEach((button) => {
 
-    viewTrackButtons.forEach((button) => {
-        button.addEventListener("click", () => {
-            const trackId =
-                button.dataset.track ||
-                button.closest(".track-card")?.dataset.track;
+            button.addEventListener("click", () => {
+                const trackId =
+                    button.dataset.track ||
+                    button.closest(".track-card")?.dataset.track;
 
-            const track =
-                dynamicTracks.find((item) => item._id === trackId);
+                const track = dynamicTracks.find(
+                    (item) => item._id === trackId
+                );
 
-            if (!track) return;
+                if (!track || !trackProfile) return;
 
-            $("#profileTrackNumber").innerText =
-                String(dynamicTracks.indexOf(track) + 1).padStart(2, "0");
+                $("#profileTrackNumber").innerText =
+                    String(dynamicTracks.indexOf(track) + 1).padStart(2, "0");
 
-            $("#profileTrackName").innerText = track.title;
-            $("#profileTrackArtist").innerText = track.artist;
-            $("#profileTrackGenre").innerText = track.genre;
-            $("#profileTrackLikes").innerText = "0";
-            $("#profileTrackPlays").innerText = "0";
+                $("#profileTrackName").innerText = track.title;
+                $("#profileTrackArtist").innerText = track.artist;
+                $("#profileTrackGenre").innerText = track.genre;
+                $("#profileTrackLikes").innerText = "0";
+                $("#profileTrackPlays").innerText = "0";
 
-            $("#profileTrackRelease").innerText =
-                new Date(track.createdAt).getFullYear();
+                $("#profileTrackRelease").innerText =
+                    new Date(track.createdAt).getFullYear();
 
-            $("#profileLyrics").innerText =
-                "Lyrics will appear here when properly licensed lyrics are added.";
+                $("#profileLyrics").innerText =
+                    "Lyrics will appear here when properly licensed lyrics are added.";
 
-            const audio = $("#profileAudio");
-            const source = $("#profileAudioSource");
+                const audio = $("#profileAudio");
+                const source = $("#profileAudioSource");
 
-            if (audio && source) {
-                audio.pause();
-                source.src =
-                    "/uploads/" + encodeURIComponent(track.file);
-                audio.load();
-            }
+                if (audio && source) {
+                    audio.pause();
+                    source.src =
+                        "/uploads/" + encodeURIComponent(track.file);
+                    audio.load();
+                }
 
-            if (trackProfile) {
                 trackProfile.classList.add("active");
                 document.body.style.overflow = "hidden";
-            }
+            });
         });
-    });
 }
 
 function closeTrack() {
@@ -492,17 +454,13 @@ if (closeTrackProfile) {
 }
 
 
-// ====================
 // Dashboard
-// ====================
-
 const dashboardName = $("#dashboardName");
 const userName = $("#userName");
 const userEmail = $("#userEmail");
 const logoutButton = $("#logoutButton");
 
-const loggedInUser =
-    JSON.parse(localStorage.getItem("user"));
+const loggedInUser = getUser();
 
 if (dashboardName && userName && userEmail) {
     if (!loggedInUser) {
@@ -516,52 +474,39 @@ if (dashboardName && userName && userEmail) {
 }
 
 
-// ====================
-// Dashboard Logout
-// ====================
+// Logout
+function logout() {
+    localStorage.removeItem("user");
+    alert("Logged out successfully!");
+    window.location.href = "login.html";
+}
 
 if (logoutButton) {
-    logoutButton.addEventListener("click", () => {
-        localStorage.removeItem("user");
-
-        alert("Logged out successfully!");
-        window.location.href = "login.html";
-    });
+    logoutButton.addEventListener("click", logout);
 }
 
 
-// ====================
-// Update Navbar
-// ====================
-
+// Navbar
 const nav = document.querySelector("nav");
 
-if (nav && loggedInUser) {
+if (nav && loggedInUser) { `
     nav.innerHTML =
-        '<a href="index.html">Home</a> | ' +
-        '<a href="artists.html">Artists</a> | ' +
-        '<a href="tracks.html">Tracks</a> | ' +
-        '<a href="upload.html">Upload</a> | ' +
-        '<a href="dashboard.html">Dashboard</a> | ' +
-        '<a href="#" id="navLogout">Logout</a>';
+        <a href="index.html">Home</a>
+        <a href="artists.html">Artists</a>
+        <a href="tracks.html">Tracks</a>
+        <a href="upload.html">Upload</a>
+        <a href="dashboard.html">Dashboard</a>
+        <a href="#" id="navLogout">Logout</a>
+    `;
 
-    const navLogout = $("#navLogout");
-
-    navLogout.addEventListener("click", (event) => {
+    $("#navLogout").addEventListener("click", (event) => {
         event.preventDefault();
-
-        localStorage.removeItem("user");
-
-        alert("Logged out successfully!");
-        window.location.href = "login.html";
+        logout();
     });
 }
 
 
-// ====================
 // Close Profiles with Escape
-// ====================
-
 document.addEventListener("keydown", (event) => {
     if (event.key === "Escape") {
         closeArtist();

@@ -4,7 +4,6 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
     <title>Paper Volume - Independent Music Platform</title>
 
     <link rel="stylesheet" href="style.css">
@@ -18,29 +17,26 @@
         <p>Indie Art Land</p>
 
         <nav>
-            <a href="index.html">Home</a> |
-            <a href="artists.html">Artists</a> |
-            <a href="tracks.html">Tracks</a> |
-            <a href="upload.html">Upload</a> |
+            <a href="index.html">Home</a>
+            <a href="artists.html">Artists</a>
+            <a href="tracks.html">Tracks</a>
+            <a href="upload.html">Upload</a>
             <a href="login.html">Login</a>
         </nav>
     </header>
 
-
-    <!-- Hero Section -->
+    <!-- Hero -->
     <section>
         <h2>Discover Independent Music</h2>
-
         <p>
-            Upload your music, grow your audience,
-            and discover talented artists from around the world.
+            Discover new artists, listen to their music,
+            and share your own work with the community.
         </p>
 
         <button id="exploreMusic">Explore Music</button>
     </section>
 
-
-    <!-- Search Section -->
+    <!-- Search -->
     <section>
         <h2>Search Music</h2>
 
@@ -51,41 +47,38 @@
                 placeholder="Search artist or song"
                 required
             >
-
             <button type="submit">Search</button>
         </form>
     </section>
 
-
     <!-- Featured Artists -->
-<section>
-    <h2>Featured Artists</h2>
+    <section>
+        <h2>Featured Artists</h2>
 
-    <article>
-        <h3>The Weeknd</h3>
-        <p>Country: Canada</p>
-        <button onclick="window.location.href='artists.html'">
-            View Profile
-        </button>
-    </article>
+        <article>
+            <h3>The Weeknd</h3>
+            <p>Canada</p>
+            <button onclick="location.href='artists.html'">
+                View Profile
+            </button>
+        </article>
 
-    <article>
-        <h3>Travis Scott</h3>
-        <p>Country: USA</p>
-        <button onclick="window.location.href='artists.html'">
-            View Profile
-        </button>
-    </article>
+        <article>
+            <h3>Travis Scott</h3>
+            <p>USA</p>
+            <button onclick="location.href='artists.html'">
+                View Profile
+            </button>
+        </article>
 
-    <article>
-        <h3>Hanumankind</h3>
-        <p>Country: India</p>
-        <button onclick="window.location.href='artists.html'">
-            View Profile
-        </button>
-    </article>
-</section>
-
+        <article>
+            <h3>Hanumankind</h3>
+            <p>India</p>
+            <button onclick="location.href='artists.html'">
+                View Profile
+            </button>
+        </article>
+    </section>
 
     <!-- Trending Songs -->
     <section>
@@ -94,7 +87,6 @@
         <article>
             <h3>Die For You</h3>
             <p>The Weeknd</p>
-
             <audio controls>
                 <source src="Audio/die-for-you.mp3" type="audio/mpeg">
             </audio>
@@ -103,7 +95,6 @@
         <article>
             <h3>FE!N</h3>
             <p>Travis Scott</p>
-
             <audio controls>
                 <source src="Audio/fe!n.mp3" type="audio/mpeg">
             </audio>
@@ -112,23 +103,19 @@
         <article>
             <h3>Big Dawgs</h3>
             <p>Hanumankind</p>
-
             <audio controls>
                 <source src="Audio/big-dawgs.mp3" type="audio/mpeg">
             </audio>
         </article>
     </section>
 
-
-    <!-- Upload Music -->
+    <!-- Upload -->
     <section>
         <h2>Upload Your Music</h2>
 
         <form id="uploadForm">
 
-            <label for="song-title">Song Title:</label>
-            <br>
-
+            <label for="song-title">Song Title</label>
             <input
                 type="text"
                 id="song-title"
@@ -136,11 +123,7 @@
                 required
             >
 
-            <br><br>
-
-            <label for="artist-name">Artist Name:</label>
-            <br>
-
+            <label for="artist-name">Artist Name</label>
             <input
                 type="text"
                 id="artist-name"
@@ -148,11 +131,7 @@
                 required
             >
 
-            <br><br>
-
-            <label for="genre">Genre:</label>
-            <br>
-
+            <label for="genre">Genre</label>
             <input
                 type="text"
                 id="genre"
@@ -160,11 +139,7 @@
                 required
             >
 
-            <br><br>
-
-            <label for="audio">Upload Audio:</label>
-            <br>
-
+            <label for="audio">Audio File</label>
             <input
                 type="file"
                 id="audio"
@@ -172,18 +147,14 @@
                 required
             >
 
-            <br><br>
-
             <button type="submit">Upload Song</button>
 
         </form>
     </section>
 
-
     <!-- Newsletter -->
     <section>
         <h2>Join Paper Volume</h2>
-
         <p>Get updates about new artists and releases.</p>
 
         <form id="newsletterForm">
@@ -193,21 +164,18 @@
                 placeholder="Enter Email"
                 required
             >
-
             <button type="submit">Subscribe</button>
         </form>
     </section>
-
 
     <!-- Footer -->
     <footer>
         <p>© 2026 Paper Volume. All Rights Reserved.</p>
 
-        <a href="#">Instagram</a> |
-        <a href="#">YouTube</a> |
+        <a href="#">Instagram</a>
+        <a href="#">YouTube</a>
         <a href="#">Twitter</a>
     </footer>
-
 
     <script src="script.js"></script>
 

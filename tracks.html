@@ -1,222 +1,112 @@
 <!DOCTYPE html>
+
 <html lang="en">
 
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
     <title>Tracks - Paper Volume</title>
-
     <link rel="stylesheet" href="style.css">
 </head>
 
 <body>
 
-    <!-- Header -->
+```
+<header>
+    <h1>Paper Volume</h1>
+    <p>Discover Independent Artists</p>
 
-    <header>
+    <nav>
+        <a href="index.html">Home</a>
+        <a href="artists.html">Artists</a>
+        <a href="tracks.html">Tracks</a>
+        <a href="upload.html">Upload</a>
+        <a href="login.html">Login</a>
+    </nav>
+</header>
 
-        <h1>Paper Volume</h1>
+<section class="tracks-page">
+    <h2>All Tracks</h2>
 
-        <p>Discover Independent Artists</p>
-
-        <nav>
-
-            <a href="index.html">Home</a> |
-
-            <a href="artists.html">Artists</a> |
-
-            <a href="tracks.html">Tracks</a> |
-
-            <a href="upload.html">Upload</a> |
-
-            <a href="login.html">Login</a>
-
-        </nav>
-
-    </header>
-
-
-    <!-- Tracks Section -->
-
-    <section class="tracks-page">
-
-        <h2>All Tracks</h2>
-
-
-        <!-- Search -->
-
-        <form id="trackSearchForm">
-
-            <input
-                type="text"
-                id="trackSearch"
-                placeholder="Search tracks or artists"
-            >
-
-            <button type="submit">
-                Search
-            </button>
-
-        </form>
-
-
-        <!-- Dynamic Track Cards -->
-
-        <div
-            class="track-container"
-            id="trackContainer"
+    <form id="trackSearchForm">
+        <input
+            type="text"
+            id="trackSearch"
+            placeholder="Search tracks or artists"
         >
+        <button type="submit">Search</button>
+    </form>
 
-            <p>Loading tracks...</p>
+    <div class="track-container" id="trackContainer">
+        <p>Loading tracks...</p>
+    </div>
+</section>
+
+<div id="trackProfile" class="track-profile">
+
+    <button id="closeTrackProfile" class="track-profile-close">
+        ← Back
+    </button>
+
+    <div class="track-profile-content">
+
+        <div id="profileTrackNumber" class="track-profile-number">
+            01
+        </div>
+
+        <p class="track-profile-label">TRACK</p>
+
+        <h1 id="profileTrackName">Track Name</h1>
+
+        <p id="profileTrackArtist" class="track-profile-artist">
+            Artist
+        </p>
+
+        <p id="profileTrackGenre" class="track-profile-genre">
+            Genre
+        </p>
+
+        <div class="profile-player">
+            <audio id="profileAudio" controls>
+                <source id="profileAudioSource" src="" type="audio/mpeg">
+            </audio>
+        </div>
+
+        <div class="track-profile-stats">
+
+            <div>
+                <strong id="profileTrackLikes">0</strong>
+                <span>Likes</span>
+            </div>
+
+            <div>
+                <strong id="profileTrackPlays">0</strong>
+                <span>Plays</span>
+            </div>
+
+            <div>
+                <strong id="profileTrackRelease">2026</strong>
+                <span>Released</span>
+            </div>
 
         </div>
 
-    </section>
-
-
-    <!-- FULL SCREEN TRACK PROFILE -->
-
-    <div
-        id="trackProfile"
-        class="track-profile"
-    >
-
-        <button
-            id="closeTrackProfile"
-            class="track-profile-close"
-        >
-            ← Back
-        </button>
-
-
-        <div class="track-profile-content">
-
-            <div
-                class="track-profile-number"
-                id="profileTrackNumber"
-            >
-                01
-            </div>
-
-
-            <p class="track-profile-label">
-                TRACK
+        <div class="lyrics-section">
+            <h2>Lyrics</h2>
+            <p id="profileLyrics">
+                Lyrics will appear here when properly licensed lyrics are added.
             </p>
-
-
-            <h1 id="profileTrackName">
-                Track Name
-            </h1>
-
-
-            <p
-                class="track-profile-artist"
-                id="profileTrackArtist"
-            >
-                Artist
-            </p>
-
-
-            <p
-                class="track-profile-genre"
-                id="profileTrackGenre"
-            >
-                Genre
-            </p>
-
-
-            <!-- Player -->
-
-            <div class="profile-player">
-
-                <audio
-                    id="profileAudio"
-                    controls
-                >
-
-                    <source
-                        id="profileAudioSource"
-                        src=""
-                        type="audio/mpeg"
-                    >
-
-                </audio>
-
-            </div>
-
-
-            <!-- Track Stats -->
-
-            <div class="track-profile-stats">
-
-                <div>
-
-                    <strong id="profileTrackLikes">
-                        0
-                    </strong>
-
-                    <span>Likes</span>
-
-                </div>
-
-
-                <div>
-
-                    <strong id="profileTrackPlays">
-                        0
-                    </strong>
-
-                    <span>Plays</span>
-
-                </div>
-
-
-                <div>
-
-                    <strong id="profileTrackRelease">
-                        2026
-                    </strong>
-
-                    <span>Released</span>
-
-                </div>
-
-            </div>
-
-
-            <!-- Lyrics -->
-
-            <div class="lyrics-section">
-
-                <h2>
-                    Lyrics
-                </h2>
-
-                <p id="profileLyrics">
-                    Lyrics will appear here when properly licensed lyrics are added.
-                </p>
-
-            </div>
-
         </div>
 
     </div>
+</div>
 
+<footer>
+    <p>© 2026 Paper Volume. All Rights Reserved.</p>
+</footer>
 
-    <!-- Footer -->
-
-    <footer>
-
-        <p>
-            © 2026 Paper Volume. All Rights Reserved.
-        </p>
-
-    </footer>
-
-
-    <script src="script.js"></script>
+<script src="script.js"></script>
+```
 
 </body>
-
 </html>

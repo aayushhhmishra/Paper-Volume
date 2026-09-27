@@ -1,78 +1,65 @@
 <!DOCTYPE html>
+
 <html lang="en">
 
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
     <title>Dashboard - Paper Volume</title>
-
     <link rel="stylesheet" href="style.css">
 </head>
 
 <body>
 
-    <header>
-        <h1>Paper Volume</h1>
-        <p>Discover Independent Artists</p>
+```
+<header>
+    <h1>Paper Volume</h1>
+    <p>Discover Independent Artists</p>
 
-        <nav>
-            <a href="index.html">Home</a> |
-            <a href="artists.html">Artists</a> |
-            <a href="tracks.html">Tracks</a> |
-            <a href="upload.html">Upload</a> |
-            <a href="dashboard.html">Dashboard</a>
-        </nav>
-    </header>
+    <nav>
+        <a href="index.html">Home</a>
+        <a href="artists.html">Artists</a>
+        <a href="tracks.html">Tracks</a>
+        <a href="upload.html">Upload</a>
+        <a href="dashboard.html">Dashboard</a>
+    </nav>
+</header>
 
+<section>
+    <div class="dashboard-container">
 
-    <section>
-        <div class="dashboard-container">
+        <h2>My Dashboard</h2>
 
-            <h2>My Dashboard</h2>
+        <p>
+            Welcome, <strong id="dashboardName"></strong>!
+        </p>
 
+        <div class="dashboard-info">
             <p>
-                Welcome, <strong id="dashboardName"></strong>!
+                <strong>Name:</strong>
+                <span id="userName"></span>
             </p>
 
-            <div class="dashboard-info">
-
-                <p>
-                    <strong>Name:</strong>
-                    <span id="userName"></span>
-                </p>
-
-                <p>
-                    <strong>Email:</strong>
-                    <span id="userEmail"></span>
-                </p>
-
-            </div>
-
-
-            <div class="dashboard-actions">
-
-                <a href="upload.html">
-                    <button>Upload Song</button>
-                </a>
-
-                <button id="logoutButton">
-                    Logout
-                </button>
-
-            </div>
-
+            <p>
+                <strong>Email:</strong>
+                <span id="userEmail"></span>
+            </p>
         </div>
-    </section>
 
+        <div class="dashboard-actions">
+            <a href="upload.html">Upload Song</a>
+            <button id="logoutButton">Logout</button>
+        </div>
 
-    <footer>
-        <p>© 2026 Paper Volume. All Rights Reserved.</p>
-    </footer>
+    </div>
+</section>
 
+<footer>
+    <p>© 2026 Paper Volume. All Rights Reserved.</p>
+</footer>
 
-    <script src="script.js"></script>
+<script src="script.js"></script>
+```
 
 </body>
-
 </html>
