@@ -16,6 +16,10 @@
     {
       "src": "**/*.js",
       "use": "@vercel/static"
+    },
+    {
+      "src": "Audio/**",
+      "use": "@vercel/static"
     }
   ],
   "routes": [

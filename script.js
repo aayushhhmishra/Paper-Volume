@@ -490,8 +490,8 @@ if (logoutButton) {
 // Navbar
 const nav = document.querySelector("nav");
 
-if (nav && loggedInUser) { `
-    nav.innerHTML =
+if (nav && loggedInUser) {
+    nav.innerHTML = `
         <a href="index.html">Home</a>
         <a href="artists.html">Artists</a>
         <a href="tracks.html">Tracks</a>
@@ -500,10 +500,14 @@ if (nav && loggedInUser) { `
         <a href="#" id="navLogout">Logout</a>
     `;
 
-    $("#navLogout").addEventListener("click", (event) => {
-        event.preventDefault();
-        logout();
-    });
+    const navLogout = $("#navLogout");
+
+    if (navLogout) {
+        navLogout.addEventListener("click", (event) => {
+            event.preventDefault();
+            logout();
+        });
+    }
 }
 
 
