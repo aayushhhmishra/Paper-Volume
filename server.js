@@ -20,6 +20,13 @@ const upload = multer({ storage });
 
 app.use(express.static(__dirname));
 app.use(express.json());
+app.use((req, res, next) => {
+    console.log(`[request] ${req.method} ${req.path}`);
+    res.on("finish", () => {
+        console.log(`[response] ${req.method} ${req.path} ${res.statusCode}`);
+    });
+    next();
+});
 
 // MongoDB Connection
 
@@ -27,23 +34,28 @@ let databaseConnection;
 
 async function connectDatabase() {
     if (mongoose.connection.readyState === 1) {
+        console.log("[database] already connected");
         return;
     }
 
     if (!process.env.MONGODB_URI) {
+        console.error("[database] MONGODB_URI is missing");
         throw new Error("MONGODB_URI is not configured");
     }
 
     if (!databaseConnection) {
+        console.log("[database] connecting to MongoDB");
         databaseConnection = mongoose.connect(process.env.MONGODB_URI, {
             serverSelectionTimeoutMS: 5000
         }).catch((error) => {
             databaseConnection = undefined;
+            console.error("[database] connection failed:", error.name, error.message);
             throw error;
         });
     }
 
     await databaseConnection;
+    console.log("[database] connected successfully");
 }
 
 // Home Page
@@ -57,6 +69,8 @@ res.sendFile(path.join(__dirname, "index.html"));
 app.post("/api/register", async (req, res) => {
 try {
 const { name, email, password } = req.body;
+
+    console.log("[register] started", { email, hasName: Boolean(name), hasPassword: Boolean(password) });
 
     await connectDatabase();
 
@@ -76,12 +90,14 @@ const { name, email, password } = req.body;
 
     await newUser.save();
 
+    console.log("[register] user created", { email });
+
     res.status(201).json({
         message: "Account created successfully"
     });
 
 } catch (error) {
-    console.log(error);
+    console.error("[register] failed:", error.name, error.message);
 
     res.status(500).json({
         message: "Something went wrong"
@@ -96,11 +112,16 @@ app.post("/api/login", async (req, res) => {
 try {
 const { email, password } = req.body;
 
+    console.log("[login] started", { email, hasPassword: Boolean(password) });
+
     await connectDatabase();
+
+    console.log("[login] querying user", { email });
 
     const user = await User.findOne({ email });
 
     if (!user) {
+        console.log("[login] user not found", { email });
         return res.status(400).json({
             message: "Invalid email or password"
         });
@@ -112,6 +133,7 @@ const { email, password } = req.body;
     );
 
     if (!passwordMatch) {
+        console.log("[login] password mismatch", { email });
         return res.status(400).json({
             message: "Invalid email or password"
         });
@@ -125,8 +147,10 @@ const { email, password } = req.body;
         }
     });
 
+    console.log("[login] successful", { email });
+
 } catch (error) {
-    console.log(error);
+    console.error("[login] failed:", error.name, error.message);
 
     res.status(500).json({
         message: "Something went wrong"
@@ -169,7 +193,7 @@ message: "No song uploaded"
     });
 
 } catch (error) {
-    console.log(error);
+    console.error("[upload] failed:", error.name, error.message);
 
     res.status(500).json({
         message: "Song upload failed"
@@ -188,7 +212,7 @@ const tracks = await Track.find()
     res.status(200).json(tracks);
 
 } catch (error) {
-    console.log(error);
+    console.error("[tracks] failed:", error.name, error.message);
 
     res.status(500).json({
         message: "Could not fetch tracks"
