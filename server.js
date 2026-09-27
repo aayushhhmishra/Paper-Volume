@@ -14,13 +14,7 @@ const app = express();
 
 // Multer Storage
 
-const storage = multer.diskStorage({
-    destination: "uploads/",
-    filename: (req, file, cb) => {
-        cb(null, Date.now() + "-" + file.originalname);
-    }
-});
-
+const storage = multer.memoryStorage();
 const upload = multer({ storage });
 
 
@@ -149,7 +143,7 @@ app.post("/api/upload", upload.single("song"), async (req, res) => {
             title,
             artist,
             genre,
-            file: req.file.filename,
+            file: req.file.originalname,
             uploadedBy
         });
 
