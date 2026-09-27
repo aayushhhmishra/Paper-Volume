@@ -22,6 +22,11 @@ const trackSchema = new mongoose.Schema({
         required: true
     },
 
+    fileId: {
+        type: mongoose.Schema.Types.ObjectId,
+        required: true
+    },
+
     uploadedBy: {
         type: String,
         required: true

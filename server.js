@@ -5,6 +5,7 @@ const path = require("path");
 const mongoose = require("mongoose");
 const bcrypt = require("bcrypt");
 const multer = require("multer");
+const { once } = require("events");
 
 const User = require("./models/user");
 const Track = require("./models/track");
@@ -177,11 +178,26 @@ message: "No song uploaded"
         });
     }
 
+    await connectDatabase();
+
+    const audioBucket = new mongoose.mongo.GridFSBucket(
+        mongoose.connection.db,
+        { bucketName: "audio" }
+    );
+
+    const audioUpload = audioBucket.openUploadStream(req.file.originalname, {
+        contentType: req.file.mimetype
+    });
+
+    audioUpload.end(req.file.buffer);
+    await once(audioUpload, "finish");
+
     const newTrack = new Track({
         title,
         artist,
         genre,
         file: req.file.originalname,
+        fileId: audioUpload.id,
         uploadedBy
     });
 
@@ -200,6 +216,32 @@ message: "No song uploaded"
     });
 }
 
+});
+
+// Stream Uploaded Audio
+
+app.get("/api/audio/:fileId", async (req, res) => {
+    try {
+        await connectDatabase();
+
+        const fileId = new mongoose.Types.ObjectId(req.params.fileId);
+        const audioBucket = new mongoose.mongo.GridFSBucket(
+            mongoose.connection.db,
+            { bucketName: "audio" }
+        );
+
+        res.type("audio/mpeg");
+        audioBucket.openDownloadStream(fileId).on("error", () => {
+            if (!res.headersSent) {
+                res.status(404).json({ message: "Audio file not found" });
+            } else {
+                res.destroy();
+            }
+        }).pipe(res);
+    } catch (error) {
+        console.error("[audio] failed:", error.name, error.message);
+        res.status(404).json({ message: "Audio file not found" });
+    }
 });
 
 // Get All Tracks

@@ -244,7 +244,9 @@ async function loadTracks() {
 
                 <audio controls>
                     <source
-                        src="/uploads/${encodeURIComponent(track.file)}"
+                        src="${track.fileId
+                            ? `/api/audio/${encodeURIComponent(track.fileId)}`
+                            : `/uploads/${encodeURIComponent(track.file)}`}" 
                         type="audio/mpeg"
                     >
                 </audio>
@@ -427,7 +429,9 @@ function setupTrackButtons() {
                 if (audio && source) {
                     audio.pause();
                     source.src =
-                        "/uploads/" + encodeURIComponent(track.file);
+                        track.fileId
+                            ? "/api/audio/" + encodeURIComponent(track.fileId)
+                            : "/uploads/" + encodeURIComponent(track.file);
                     audio.load();
                 }
 
