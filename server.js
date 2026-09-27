@@ -23,13 +23,28 @@ app.use(express.json());
 
 // MongoDB Connection
 
-mongoose.connect(process.env.MONGODB_URI)
-.then(() => {
-console.log("MongoDB connected successfully");
-})
-.catch((error) => {
-console.log("MongoDB connection failed:", error);
-});
+let databaseConnection;
+
+async function connectDatabase() {
+    if (mongoose.connection.readyState === 1) {
+        return;
+    }
+
+    if (!process.env.MONGODB_URI) {
+        throw new Error("MONGODB_URI is not configured");
+    }
+
+    if (!databaseConnection) {
+        databaseConnection = mongoose.connect(process.env.MONGODB_URI, {
+            serverSelectionTimeoutMS: 5000
+        }).catch((error) => {
+            databaseConnection = undefined;
+            throw error;
+        });
+    }
+
+    await databaseConnection;
+}
 
 // Home Page
 
@@ -42,6 +57,8 @@ res.sendFile(path.join(__dirname, "index.html"));
 app.post("/api/register", async (req, res) => {
 try {
 const { name, email, password } = req.body;
+
+    await connectDatabase();
 
     const existingUser = await User.findOne({ email });
 
@@ -78,6 +95,8 @@ const { name, email, password } = req.body;
 app.post("/api/login", async (req, res) => {
 try {
 const { email, password } = req.body;
+
+    await connectDatabase();
 
     const user = await User.findOne({ email });
 
