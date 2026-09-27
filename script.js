@@ -69,6 +69,7 @@ if (loginForm) {
                 alert(data.message || "Login failed.");
                 return;
             }
+            console.log(data);
 
             localStorage.setItem("user", JSON.stringify(data.user));
 

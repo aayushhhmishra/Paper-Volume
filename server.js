@@ -51,12 +51,10 @@ const { name, email, password } = req.body;
         });
     }
 
-    const hashedPassword = await bcrypt.hash(password, 10);
-
     const newUser = new User({
         name,
         email,
-        password: hashedPassword
+        password
     });
 
     await newUser.save();
